@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Bottom Button Runner",
+  "version": "1.0",
+  "description": "Adds a button at the bottom of the page and runs a script",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["style.css"]
+    }
+  ]
+}
