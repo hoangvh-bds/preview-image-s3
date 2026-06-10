@@ -1,6 +1,19 @@
+const getBucketContext = () => {
+  const bucketMatch = window.location.pathname.match(/^\/s3\/buckets\/([^/?]+)/);
+  const regionMatch = window.location.hostname.match(/^([^.]+)\.console\.aws\.amazon\.com$/);
+
+  if (!bucketMatch || !regionMatch) {
+    return null;
+  }
+
+  return {
+    bucketName: decodeURIComponent(bucketMatch[1]),
+    region: regionMatch[1],
+  };
+};
+
 // Prevent injecting twice and only show on S3 bucket pages
-if (!document.getElementById("my-extension-btn") && 
-    window.location.href.startsWith("https://ap-southeast-1.console.aws.amazon.com/s3/buckets/")) {
+if (!document.getElementById("my-extension-btn") && getBucketContext()) {
   const btn = document.createElement("button");
   btn.id = "my-extension-btn";
   btn.innerText = "Run Script";
@@ -21,18 +34,27 @@ if (!document.getElementById("my-extension-btn") &&
 }
 
 const runMyScript = async () => {
+  const bucketContext = getBucketContext();
+  if (!bucketContext) {
+    alert("This page is not a supported S3 bucket page");
+    return;
+  }
+
+  const { bucketName, region } = bucketContext;
+
   // Get prefix from URL params if exists
   const urlParams = new URLSearchParams(window.location.search);
   const prefix = urlParams.get("prefix");
+  const basePath = prefix ? `${prefix.replace(/\/?$/, "/")}` : "";
 
   const BASE_URL = prefix
-    ? `https://seller-staticfile-blkji.s3.ap-southeast-1.amazonaws.com/${prefix}`
-    : "https://seller-staticfile-blkji.s3.ap-southeast-1.amazonaws.com/";
+    ? `https://s3.${region}.amazonaws.com/${bucketName}/${basePath}`
+    : `https://s3.${region}.amazonaws.com/${bucketName}/`;
 
   // OLD LOGIC — keep exactly as before
   const listImages = Array.from(
     document.querySelectorAll(
-      'a[href*="seller-staticfile-blkji"] .object-name',
+      `a[href*="${bucketName}"] .object-name`,
     ),
   ).map((el) => el.textContent.trim());
 
