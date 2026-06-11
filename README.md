@@ -1,6 +1,6 @@
 # S3 Clone Chrome Extension
 
-This repo is a Chrome Extension that uses `content.js` to inject a `Run Script` button into the AWS S3 Console and open an image preview page from the current bucket contents.
+This repo is a Chrome Extension that uses `content.js` to inject a `Preview Images` button into the AWS S3 Console and open an image preview page from the current bucket contents.
 
 ## Repo Structure
 
@@ -31,7 +31,7 @@ https://<region>.console.aws.amazon.com/s3/buckets/<bucket-name>
 ```
 
 2. Reload the tab if it was already open before installing the extension.
-3. On a supported bucket page, a `Run Script` button will appear near the bottom of the page.
+3. On a supported bucket page, a `Preview Images` button will appear near the bottom of the page.
 4. Click the button to read image files from the current bucket listing and open a new tab with image previews.
 
 ## Notes For Development

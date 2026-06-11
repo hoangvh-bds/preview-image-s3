@@ -16,7 +16,7 @@ const getBucketContext = () => {
 if (!document.getElementById("my-extension-btn") && getBucketContext()) {
   const btn = document.createElement("button");
   btn.id = "my-extension-btn";
-  btn.innerText = "Run Script";
+  btn.innerText = "Preview Images";
 
   btn.addEventListener("click", async () => {
     btn.disabled = true;
@@ -26,7 +26,7 @@ if (!document.getElementById("my-extension-btn") && getBucketContext()) {
       await runMyScript();
     } finally {
       btn.disabled = false;
-      btn.innerText = "Run Script";
+      btn.innerText = "Preview Images";
     }
   });
 
